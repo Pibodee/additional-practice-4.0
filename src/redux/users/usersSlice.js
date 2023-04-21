@@ -1,7 +1,19 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { fetchUsers, fetchUserById, deleteUserById } from './usersOperations';
+import {
+  fetchUsers,
+  fetchUserById,
+  deleteUserById,
+  AddUser,
+  updateUser,
+} from './usersOperations';
 
-const USER_ACTIONS = [fetchUserById, fetchUsers, deleteUserById];
+const USER_ACTIONS = [
+  fetchUserById,
+  fetchUsers,
+  deleteUserById,
+  AddUser,
+  updateUser,
+];
 
 const usersSlice = createSlice({
   name: 'users',
@@ -25,6 +37,17 @@ const usersSlice = createSlice({
         );
         state.items.splice(index, 1);
         state.currentUser = null;
+      })
+      .addCase(AddUser.fulfilled, (state, action) => {
+        state.items.push(action.payload);
+      })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        const index = state.items.findIndex(
+          element => element.id === action.payload.id
+        );
+        console.log(index);
+        state.items.splice(index, 1, action.payload);
+        state.currentUser = action.payload;
       })
       .addMatcher(
         isAnyOf(...USER_ACTIONS.map(action => action.fulfilled)),

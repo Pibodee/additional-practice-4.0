@@ -4,6 +4,7 @@ import { selectUser } from 'redux/users/usersSelectors';
 import { fetchUserById } from 'redux/users/usersOperations';
 import { useParams } from 'react-router-dom';
 import { Modal } from 'components/Modal/Modal';
+import { Link } from 'react-router-dom';
 
 const UserDetailsPage = () => {
   const [isModalOpen, toggleModal] = useState(false);
@@ -34,6 +35,9 @@ const UserDetailsPage = () => {
       <button type="button" onClick={handleClick}>
         Delete
       </button>
+      <Link to="update" state={user}>
+        Update
+      </Link>
       {isModalOpen && <Modal setIsModalOpen={toggleModal} id={id} />}
     </>
   );
